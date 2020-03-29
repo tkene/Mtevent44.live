@@ -1,0 +1,35 @@
+
+//  <!========================================================>
+//  <!======================== index =========================>
+//  <!========================================================>
+
+.bodyindex{
+    
+    background-image: image('../images/ballon.jpg') ;
+}
+.center{
+    position: absolute;
+    top: 40%;
+    left: 40%;
+}
+
+.parent {
+  margin-top: 40vh; /* poussé de la moitié de hauteur de viewport */
+  transform: translateY(-50%); /* tiré de la moitié de sa propre hauteur */
+}
+
+@media (min-width: 1200px) {
+.container_contact {
+    max-width: 870px;
+}}
+
+.titre_login{
+
+    font-family: 'Dancing Script', cursive;
+    font-size: 2rem;
+}
+
+
+
+
+

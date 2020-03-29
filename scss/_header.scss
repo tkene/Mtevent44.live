@@ -1,0 +1,81 @@
+
+//  <!========================================================>
+//  <!======================== header =========================>
+//  <!========================================================>
+
+.logo{
+    width: 136px;
+    height: 118px;
+}
+
+.navbar{
+background-color: #143054;
+}
+
+.nav-link{
+    color: white;
+}
+
+.seconnecter{
+  font-size: 25px;
+    color: white;
+    margin-bottom: 0px;
+    font-family: 'Dancing Script', cursive;
+
+}
+
+
+.nav-item{
+    padding-right: 25px;
+    font-family: 'Dancing Script', cursive;
+    font-size: 25px;
+
+}
+
+.btnrecherche{
+    padding-left: 15px;
+}
+
+.bienvenue{
+    color: white;
+}
+
+.navbar-toggler-icon{
+    color: white;
+}
+
+.navbar-toggler {
+  color: #ffffff;
+
+}
+
+.remerciement{
+  text-align: center;
+  color: green;
+  font-size: 40px;
+    font-family: 'Dancing Script', cursive;
+}
+
+.resume_commande{
+  font-family: 'Dancing Script', cursive;
+  font-size: 22px;
+ 
+}
+
+.rappel{
+  // font-family: 'Dancing Script', cursive;
+  text-align: center;
+  font-size: 20px;
+}
+
+.modal_content{
+  width: 100%;
+}
+
+#menu_header{
+  z-index: 3;
+}
+
+#image_header{
+  z-index: 1;
+}
