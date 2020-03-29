@@ -1,0 +1,9 @@
+{
+    "version": 3,
+    "mappings": "",
+    "sources": [
+        "../scss/_mention_legal/mention_legal.scss"
+    ],
+    "names": [],
+    "file": "mention_legal.css"
+}
