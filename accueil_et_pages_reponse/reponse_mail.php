@@ -1,7 +1,7 @@
 <?php
-include "../connect/connect.php";
-include "../fonctions/fonction.php";
-include "../header/header.php";
+require "../connect/connect.php";
+require "../fonctions/fonction.php";
+require "../header/header.php";
 
 ?>
 

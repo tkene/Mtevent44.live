@@ -1,7 +1,7 @@
 <?php
-include "../connect/connect.php";
-include "../fonctions/fonction.php";
-include "../header/header.php";
+require "../connect/connect.php";
+require "../fonctions/fonction.php";
+require "../header/header.php";
 
 ?>
 
@@ -16,22 +16,13 @@ include "../header/header.php";
         <p class="text_reponse">Merci
             de votre compréhension.</p>
 
-        <i class="far fa-thumbs-up"></i>
+
 
         <a href="../accueil_et_pages_reponse/accueil.php" type="" class="btn btn-outline color-143054"
             style="font-size: 30px"><strong> Page
                 d'accueil</strong> </a>
 
     </div>
-
-
-
-
-
-    <!-- </body> -->
-
-
-
 
     <?php
 

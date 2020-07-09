@@ -7,7 +7,7 @@ include "../header/header.php";
 
 
 <body class="reponse_mail">
-
+    <br><br>
     <div class="message_mail">
         <p>Bonjour,<br>
             <p class="message_mail_ok"> <strong>"un mail vous a été envoyé"</strong></p>
