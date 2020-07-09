@@ -4,6 +4,7 @@ ob_start();
 
 
 require "../connect/connect.php";
+require '../connect/crypt.php';
 require "../fonctions/fonction.php";
 require "../header/header.php";
 
@@ -97,13 +98,13 @@ foreach ($recup_panier as $row_prix) {
 
 <br>
 
-<h3 class="location">Valider votre panier en 3 étapes</h3>
+<h3 class="titre">Valider votre panier en 3 étapes</h3>
 
 <br>
 
 <div class="container mt-3" id="gestion_commande_client">
     <div class="row">
-        <div class="col-md-5" style="text-align:center">
+        <div class="col-md-4" style="text-align:center">
             <img class="img-responsive" src="https://www.options.fr/media/wysiwyg/icone_selection.png" alt=""><br><br>
             <span class="step-number">
                 <h3>1</h3>
@@ -111,7 +112,7 @@ foreach ($recup_panier as $row_prix) {
             <span class="step-label">Envoyez vos demandes pour <br>chaque produit souhaité</span>
         </div>
 
-        <div class="col-md-5" style="text-align:center">
+        <div class="col-md-4" style="text-align:center">
             <img class="img-responsive" src="https://www.options.fr/media/wysiwyg/icone_quantite.png" alt=""><br><br>
             <span class="step-number">
                 <h3>2</h3>
@@ -119,7 +120,7 @@ foreach ($recup_panier as $row_prix) {
             <span class="step-label">Nous vérifions la disponibilité <br>de vos produits </span>
         </div>
 
-        <div class="col-md-2" style="text-align:center">
+        <div class="col-md-4" style="text-align:center">
             <img class="img-responsive" src="https://www.options.fr/media/wysiwyg/icone_valider.png" alt=""><br><br>
             <span class="step-number">
                 <h3>3</h3>
@@ -160,7 +161,7 @@ foreach ($recup_panier as $row_prix) {
                 <!-------------------------------Produit sélectionné par le client  -------------------------------------->
                 <!-------------------------------------------------------------------------------------------------------->
 
-                <div class="col-md-5">
+                <div class="col-md-4">
 
                     <div class="card" style="border:none; ">
                         <div class="card-body">
@@ -259,7 +260,7 @@ foreach ($recup_panier as $row_prix) {
                 <!------------------------------------------------------------------------------------------->
                 <!-------------------------------Statut demande client -------------------------------------->
                 <!------------------------------------------------------------------------------------------->
-                <div class="col-md-5">
+                <div class="col-md-4">
 
                     <div class="card" style="border:none; ">
                         <div class="card-body">
@@ -364,7 +365,7 @@ foreach ($recup_panier as $row_prix) {
                                                                                                     } ?></strong>
 
 
-                                                        <form action="panier.php" method="POST">
+                                                        <form action="panier" method="POST">
 
                                                             <input hidden name="id_produit" class=""
                                                                 value="<?php echo  @$row->id_produit ?>">
@@ -395,7 +396,7 @@ foreach ($recup_panier as $row_prix) {
                 <!------------------------------------------------------------------------------------------------>
                 <!-------------------------------Validation admin et client  -------------------------------------->
                 <!------------------------------------------------------------------------------------------------->
-                <div class="col-md-2">
+                <div class="col-md-4">
 
 
                     <!---------------------------------------------------------------------------->
@@ -412,9 +413,11 @@ foreach ($recup_panier as $row_prix) {
                     <!-- <div class="panier_total"> -->
                     <div class="card-body">
                         <h5 class="card-title" style="text-align:center">A PAYER</h5>
+                        <p style="text-align: center"><i class="fas fa-chevron-down fa-1x"></i></p>
+                        <div class="trait"></div>
                     </div>
 
-                    <div class="trait"></div>
+
                     <br>
 
                     <div class="container">
@@ -422,10 +425,11 @@ foreach ($recup_panier as $row_prix) {
                         <p>Total (TTC) :
                             <?php if (isset($total)) { ?>
                             <?php echo $total; ?> €</p>
+                        <?php $var1 = aesEncrypt($total); ?>
 
                         <div class="">
 
-                            <a class="btn btn-info" href="../clients/transaction.php?total=<?php echo $total; ?>"
+                            <a class="btn btn-info" href="../clients/transaction?total=<?php echo $var1; ?>"
                                 value="">Valider le panier</a>
 
                             <?php } else {

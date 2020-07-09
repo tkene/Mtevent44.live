@@ -93,120 +93,122 @@ $liste_user = liste_user();
     </form>
 
 </div>
-
-
-<?php if ($id_user) { ?>
-
-<div class="table-responsive">
-
-    <table class="table">
-
-        <thead class="thead-dark">
-            <tr>
-                <th scope="col">#</th>
-                <th scope="col">Nom</th>
-                <th scope="col">Prenom</th>
-                <th scope="col">Mail</th>
-                <th scope="col">Téléphone</th>
-                <th scope="col">Date d'inscription</th>
-
-            </tr>
-        </thead>
-
-        <tbody>
-            <?php $i = 1; ?>
-
-            <tr>
-
-                <th scope="row"><?php echo $i++; ?></th>
-
-                <td> <?php echo $recup_id_user->nom ?></td>
-                <td> <?php echo $recup_id_user->prenom ?></td>
-                <td> <?php echo $recup_id_user->mail ?></td>
-                <td> <?php echo $recup_id_user->phone ?></td>
-
-                <?php $dateMySQL = ($recup_id_user->date_creat) ?>
-                <td> <?php echo date("d-m-Y", strtotime($dateMySQL)) ?></td>
-
-                <td>
-                    <form action="admin_compte_client.php" method="POST">
-
-                        <input hidden name="id_user_message" value="<?php echo $recup_id_user->id_user; ?>">
-                        <input hidden name="mail" value="<?php echo $recup_id_user->mail; ?>">
-                        <input hidden name="prenom" value="<?php echo $recup_id_user->prenom; ?>">
-                        <input hidden name="nom" value="<?php echo $recup_id_user->nom; ?>">
-
-
-                        <textarea class="text_au_client" type="text" name="text_au_client"
-                            placeholder="Message à envoyer au client"></textarea><br>
-                        <label><input class="btn btn-outline-success btn-sm" type="submit" name="envoyer"
-                                value="envoyer"></label>
-
-                    </form>
-                </td>
-
-            </tr>
-
-        </tbody>
-
-    </table>
-
-
-
-</div>
-
-<?php } ?>
-
-
-
 <br>
+<div class="container mt-3">
+    <?php if ($id_user) { ?>
+
+    <div class="table-responsive">
+
+        <table class="table">
+
+            <thead class="thead">
+                <tr>
+                    <th id="thead_th" scope="col">#</th>
+                    <th id="thead_th" scope="col">Nom</th>
+                    <th id="thead_th" scope="col">Prenom</th>
+                    <th id="thead_th" scope="col">Mail</th>
+                    <th id="thead_th" scope="col">Téléphone</th>
+                    <th id="thead_th" scope="col">Date d'inscription</th>
+                    <th id="thead_th" scope="col">Message</th>
+
+
+                </tr>
+            </thead>
+
+            <tbody>
+                <?php $i = 1; ?>
+
+                <tr>
+
+                    <th scope="row"><?php echo $i++; ?></th>
+
+                    <td> <?php echo $recup_id_user->nom ?></td>
+                    <td> <?php echo $recup_id_user->prenom ?></td>
+                    <td> <?php echo $recup_id_user->mail ?></td>
+                    <td> <?php echo $recup_id_user->phone ?></td>
+
+                    <?php $dateMySQL = ($recup_id_user->date_creat) ?>
+                    <td> <?php echo date("d-m-Y", strtotime($dateMySQL)) ?></td>
+
+                    <td>
+                        <form action="admin_compte_client.php" method="POST">
+
+                            <input hidden name="id_user_message" value="<?php echo $recup_id_user->id_user; ?>">
+                            <input hidden name="mail" value="<?php echo $recup_id_user->mail; ?>">
+                            <input hidden name="prenom" value="<?php echo $recup_id_user->prenom; ?>">
+                            <input hidden name="nom" value="<?php echo $recup_id_user->nom; ?>">
+
+
+                            <textarea class="text_au_client" type="text" name="text_au_client"
+                                placeholder="Message à envoyer au client"></textarea><br>
+                            <label><input class="btn btn-outline-success btn-sm" type="submit" name="envoyer"
+                                    value="envoyer"></label>
+
+                        </form>
+                    </td>
+
+                </tr>
+
+            </tbody>
+
+        </table>
 
 
 
-<div class="table-responsive">
+    </div>
 
-    <table class="table">
-
-        <thead class="thead-dark">
-            <tr>
-                <th scope="col">#</th>
-                <th scope="col">Nom</th>
-                <th scope="col">Prenom</th>
-                <th scope="col">Mail</th>
-                <th scope="col">Téléphone</th>
-                <th scope="col">Date d'inscription</th>
-
-            </tr>
-        </thead>
-
-        <tbody>
-            <?php $i = 1; ?>
-            <?php foreach ($liste_user as $rowlisteinscrit) { ?>
-            <tr>
-
-                <th scope="row"><?php echo $i++; ?></th>
-
-
-                <td> <?php echo $rowlisteinscrit->nom ?></td>
-                <td> <?php echo $rowlisteinscrit->prenom ?></td>
-                <td> <?php echo $rowlisteinscrit->mail ?></td>
-                <td> <?php echo $rowlisteinscrit->phone ?></td>
-
-                <?php $dateMySQL = (@$rowlisteinscrit->date_creat) ?>
-                <td> <?php echo date("d-m-Y", strtotime($dateMySQL)) ?></td>
-
-            </tr>
-            <?php } ?>
-
-
-        </tbody>
-
-    </table>
+    <?php } ?>
 
 
 
+    <br>
+
+
+
+    <div class="table-responsive">
+
+        <table class="table">
+
+            <thead class="thead">
+                <tr>
+                    <th id="thead_th" scope="col">#</th>
+                    <th id="thead_th" scope="col">Nom</th>
+                    <th id="thead_th" scope="col">Prenom</th>
+                    <th id="thead_th" scope="col">Mail</th>
+                    <th id="thead_th" scope="col">Téléphone</th>
+                    <th id="thead_th" scope="col">Date d'inscription</th>
+
+                </tr>
+            </thead>
+
+            <tbody>
+                <?php $i = 1; ?>
+                <?php foreach ($liste_user as $rowlisteinscrit) { ?>
+                <tr>
+
+                    <th scope="row"><?php echo $i++; ?></th>
+
+
+                    <td> <?php echo $rowlisteinscrit->nom ?></td>
+                    <td> <?php echo $rowlisteinscrit->prenom ?></td>
+                    <td> <?php echo $rowlisteinscrit->mail ?></td>
+                    <td> <?php echo $rowlisteinscrit->phone ?></td>
+
+                    <?php $dateMySQL = (@$rowlisteinscrit->date_creat) ?>
+                    <td> <?php echo date("d-m-Y", strtotime($dateMySQL)) ?></td>
+
+                </tr>
+                <?php } ?>
+
+
+            </tbody>
+
+        </table>
+
+
+
+    </div>
 </div>
-
 
 
 <?php

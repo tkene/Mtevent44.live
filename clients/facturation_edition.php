@@ -1,29 +1,51 @@
 <?php
 
-
-
-
-
-
-$recup_id_user = $_GET['id_user'];
-$recup_id_paiement = $_GET['id_paiement'];
-
-
-
 require "../connect/connect.php";
+require '../connect/crypt.php';
 require "../fonctions/fonction.php";
 require "../header/header_facturation_edition.php";
 
+// si y a un id dans l'url je décripte et je le compare à la base de donnée.
+if (isset($_GET["id_user"])) {
+    $id_user = $_GET["id_user"];
 
+    $var1 = aesDecrypt($id_user);
+    //echo $var2;
+    if (verification_id($var1)) {
+        //echo 'ok tu passes';
+        //echo  $verification_id;
+    } else {
+        //$erreur = "Vous n'avez pas copié le bon lien ou merci de contacter l'administrateur";
+        header('location:https://www.mtevent44.fr/404.php');
+        ob_end_flush();
+    }
+} else {
+    echo 'Erreur pas id ';
+}
+
+$id_user = $_GET['id_user'];
+$var1 = aesDecrypt($id_user);
+
+$recup_id_paiement = $_GET['id_paiement'];
+$var2 = aesDecrypt($recup_id_paiement);
+
+$recup_code_promo = $_GET['code_promo'];
+$var3 = aesDecrypt($recup_code_promo);
 
 //permet de recuperer les informations concernant l'id paiement
-$recup_paiement_edition = recup_paiement_edition($recup_id_user, $recup_id_paiement);
+$recup_paiement_edition = recup_paiement_edition($var1, $var2);
+
 //permet de recuperer les informations concernant l'id user
-$recup_user_edition = recup_user_edition($recup_id_user);
+$recup_user_edition = recup_user_edition($var1);
+
 //var_dump($recup_user_edition);
-$recup_facture_edition = recup_facture_edition($recup_id_user, $recup_id_paiement);
+$recup_facture_edition = recup_facture_edition($var1, $var2);
 
+// récupere le code promo pour le comparer à la base de donnée
+$recup_info_code_promo = recup_info_code_promo($var3);
 
+// selectionne le type de promo
+$select = select_type($var3);
 
 // permet de calculer le total :
 
@@ -31,12 +53,22 @@ foreach ($recup_paiement_edition as $row) {
 
     @$total += $row->prix;
 }
-foreach ($recup_paiement_edition as $row) {
+// foreach ($recup_paiement_edition as $row) {
 
-    @$tva += ($row->prix) * 0.20;
+//     @$tva += ($row->prix) * 0.20;
+// }
+foreach ($recup_info_code_promo as $row) {
+
+    $code_promo = $row->valeur_promo;
 }
 
 
+
+
+
+
+//var_dump($select);
+//var_dump($code_promo);
 ?>
 
 
@@ -85,7 +117,7 @@ foreach ($recup_paiement_edition as $row) {
                 <tr>
                     <th class="service">SERVICE</th>
                     <th class="desc" style="padding-left: 70px;padding-right: 70px;">DESCRIPTION</th>
-                    <th class="table th">PRICE</th>
+                    <th class="table th">PRIX</th>
                     <th>QTY</th>
                     <th>TOTAL</th>
                 </tr>
@@ -113,16 +145,39 @@ foreach ($recup_paiement_edition as $row) {
                     <?php    } ?>
                 </tr>
 
+
+
                 <tr>
-                    <td colspan="4">TVA 20%</td>
-                    <td class="total"><?php echo $tva ?> €</td>
+                    <td colspan="4" class="grand total">Sous TOTAL TTC</td>
+                    <td class="grand total"><?php echo $total ?> €</td>
                 </tr>
+                <tr>
+                    <td colspan="4" class="grand total">Code promotion</td>
+                    <td class="grand total"><?php if (isset($recup_info_code_promo)) {
+                                                if ($select == 1) {
+                                                    $valeur_en_pourcentage = (1 - ($code_promo / 100));
+                                                    $new_valeur_promo = ($total * $valeur_en_pourcentage);
+                                                    echo $new_valeur_promo;
+                                                } elseif ($select == 2) {
+                                                    $new_valeur_promo = $code_promo;
+                                                    echo $new_valeur_promo;
+                                                } else {
+                                                    echo "0";
+                                                }
+                                            } ?> €</td>
+                </tr>
+
+                <?php $total_avec_promo = ($total - $new_valeur_promo);
+                $tva = ($total_avec_promo * 0.20); ?>
 
                 <tr>
                     <td colspan="4" class="grand total">TOTAL TTC</td>
-                    <td class="grand total"><?php echo $total ?> €</td>
+                    <td class="grand total"><?php echo $total_avec_promo; ?> €</td>
                 </tr>
-
+                <tr>
+                    <td colspan="4" class="grand total">TVA 20%</td>
+                    <td class="grand total"><?php echo $tva ?> €</td>
+                </tr>
             </tbody>
 
         </table>

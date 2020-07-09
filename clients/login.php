@@ -28,41 +28,6 @@ if (isset($_POST["forminscription"])) {
 
 
 
-
-
-
-    // if (!empty($civil) and !empty($nom) and !empty($prenom) and !empty($mail_visiteur) and !empty($telephone) and !empty($password)) {
-
-    //     if ($mail_visiteur == $mail2) {
-
-
-    //         if ($mail_visiteur == doublonclient($mail_visiteur)) {
-
-    //             $erreur = "utilisateur déjà inscrit";
-    //         } else {
-
-
-    //             incription($civil, $nom, $prenom, $mail_visiteur, $telephone, $pass_hash);
-    //             // $valide = "enregistrement Validé";
-    //             header('location:envoi_mail_formulaire.php?mail=' . $mail_visiteur . '&nom=' . $nom . '&prenom=' . $prenom . '$tel=' . $tel);
-    //             ob_start();
-    //             exit();
-    //         }
-    //     } else {
-    //         $erreur = "Vos adresses emails ne correspondent pas";
-    //     }
-    // }
-
-
-    // // code pour imposer des caractéres spéciaux
-    // if (preg_match('#^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*\W).{6,}$#', $password)) {
-    //     echo 'Mot de passe conforme';
-    // } else {
-    //     echo 'Niveau de sécurité trop faible';
-    // }
-
-
-
     if (isset($_POST['forminscription'])) {
 
 
@@ -105,40 +70,22 @@ if (isset($_POST["forminscription"])) {
 
 
 
-
-//var_dump(verif_login($login, $passe));
-
 ?>
-
+<?php if (isset($erreur)) {
+    echo "$erreur";
+} ?>
 <div class="parent">
 
-    <div class="container mt-5">
-
-        <div class="text-center">
-            <?php
-            if (isset($erreur)) {
-                echo '<font color="red">' . $erreur . '</font>';
-            } ?>
-
-            <?php
-            if (isset($valide)) {
-                echo '<font color="green">' . $valide . '</font>';
-            } ?>
 
 
-        </div>
-
-    </div>
-
-    <!-- login -->
     <div class="container mt-5">
         <div class="text-center">
             <div class="row">
-                <div class="col-6">
+
+                <!-- login -->
+                <div class="col-md-6">
 
                     <div class="container">
-
-
                         <p class="titre_login" style="color:#143054;"> Login </p>
 
                         <br>
@@ -158,19 +105,23 @@ if (isset($_POST["forminscription"])) {
                                 <br>
                                 <input type="password" name="passe" value="" style="width:65%" required><br><br>
 
-                                <input type="submit" name="verifier" value="Connexion" class="btn btn-success"
-                                    data-toggle="modal" data-target="#exampleModal">
+                                <input type="submit" name="verifier" value="Connexion" class="btn btn-success">
                                 <br><br>
                             </form>
-                            <a href="../clients/mot_passe_oublie_partie1.php" class="btn btn-outline-secondary"
-                                value="">Mot
+
+                            <!-- mot de passe oublié -->
+                            <a href="https://www.mtevent44.fr/clients/mot_passe_oublie_partie1"
+                                class="btn btn-outline-secondary" value="">Mot
                                 de passe oublié</a>
 
                         </div>
                     </div>
                 </div>
+
+                <br>
+
                 <!-- nouveau client -->
-                <div class="col-6">
+                <div class="col-md-6">
 
                     <h1 class="animate" style="color:#143054;">Nouveau client ?</h1>
                     <br>
@@ -182,6 +133,7 @@ if (isset($_POST["forminscription"])) {
                         data-target="#exampleModalCenter">S'inscrire</a>
 
                 </div>
+
             </div>
         </div>
     </div>
@@ -313,7 +265,8 @@ if (isset($_POST["forminscription"])) {
 
 
 <?php
-include "../footer/footer.php";
+require "../footer/footer.php";
+require "../footer/modal.php";
 ?>
 
 <script>
@@ -325,7 +278,7 @@ $(document).ready(function() {
 });
 // var msg = ['not acceptable', 'very weak', 'weak', 'standard', 'looks good', 'yeahhh, strong mate.'];
 
-// permet de mettre un message dans l'input password
+// permet de mettre un message dans l'input password "page incription"
 $(function() {
     $('[data-toggle="tooltip"]').tooltip()
 })

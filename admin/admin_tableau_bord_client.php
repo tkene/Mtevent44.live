@@ -21,41 +21,41 @@ if ($id_user1) {
 }
 
 
-//Permet de valider si le message est envoyé 
-if (isset($_GET["msg"])) {
-    $msg_text_envoyé_client = $_GET["msg"];
+// //Permet de valider si le message est envoyé 
+// if (isset($_GET["msg"])) {
+//     $msg_text_envoyé_client = $_GET["msg"];
 
-    if ($msg_text_envoyé_client == "true") {
-        $reponse = "message envoyé";
-    }
-}
-
-//Permet de valider si le message est envoyé 
-if (isset($_GET["relance"])) {
-    $relance = $_GET["relance"];
-
-    if ($relance == "true") {
-        $reponse = "relance message envoyé";
-    }
-}
+//     if ($msg_text_envoyé_client == "true") {
+//         $reponse = "message envoyé";
+//     }
+// }
 
 //Permet de valider si le message est envoyé 
-if (isset($_GET["msg_refuser"])) {
-    $msg_refuser = $_GET["msg_refuser"];
+// if (isset($_GET["relance"])) {
+//     $relance = $_GET["relance"];
 
-    if ($msg_refuser == "true") {
-        $reponse = "Mail de suppression envoyé au client";
-    }
-}
+//     if ($relance == "true") {
+//         $reponse = "relance message envoyé";
+//     }
+// }
 
 //Permet de valider si le message est envoyé 
-if (isset($_GET["msg_confirmation"])) {
-    $msg_confirmation = $_GET["msg_confirmation"];
+// if (isset($_GET["msg_refuser"])) {
+//     $msg_refuser = $_GET["msg_refuser"];
 
-    if ($msg_confirmation == "true") {
-        $reponse = "Produit validé en attente de paiement client";
-    }
-}
+//     if ($msg_refuser == "true") {
+//         $reponse = "Mail de suppression envoyé au client";
+//     }
+// }
+
+//Permet de valider si le message est envoyé 
+// if (isset($_GET["msg_confirmation"])) {
+//     $msg_confirmation = $_GET["msg_confirmation"];
+
+//     if ($msg_confirmation == "true") {
+//         $reponse = "Produit validé en attente de paiement client";
+//     }
+// }
 
 
 
@@ -208,24 +208,7 @@ $i = 1;
 
     <h1 class="text-center" style="font-family:'Dancing Script',cursive;"> Tableau de bord</h1><br>
 
-    <!--------------------------------->
-    <!---------- pop up réponse-------->
-    <!--------------------------------->
 
-    <div class="text-center" id="haut">
-        <?php if (isset($reponse)) {
-            echo '<font color="green">' . $reponse . '</font>';
-        } ?>
-    </div>
-    <!---------------------------------------------------------->
-    <!------------- En attente de traitement ------------------->
-    <!---------------------------------------------------------->
-
-
-    <!-- <a class="btn" style="background-color: #143054; color:white" data-toggle="collapse" href="#collapseExample"
-        role="button" aria-expanded="false" aria-controls="collapseExample">
-        Ouvrir le tableau
-    </a> -->
 
     <!-------------------------------------------------------------->
     <!------------------- Liste des demandes------------------------>
@@ -243,14 +226,14 @@ $i = 1;
             <div class="table-responsive">
                 <table class="table">
 
-                    <thead class="thead-dark">
+                    <thead class="thead_tableau_client">
                         <tr>
-                            <th scope="col">#</th>
-                            <th scope="col">Date de la demande</th>
-                            <th scope="col">Produit</th>
-                            <th scope="col">Nom / Prenom</th>
-                            <th scope="col">Etat</th>
-                            <th scope="col">Action</th>
+                            <th id="tableau_client" scope="col">#</th>
+                            <th id="tableau_client" scope="col">Date de la demande</th>
+                            <th id="tableau_client" scope="col">Produit</th>
+                            <th id="tableau_client" scope="col">Nom / Prenom</th>
+                            <th id="tableau_client" scope="col">Etat</th>
+                            <th id="tableau_client" scope="col">Action</th>
                             <!-- <th scope="col">Validation</th> -->
                         </tr>
                     </thead>
@@ -312,16 +295,16 @@ $i = 1;
             <div class="table-responsive">
                 <table class="table">
 
-                    <thead class="thead-dark">
+                    <thead class="thead_tableau_client">
                         <tr>
-                            <th scope="col">#</th>
-                            <th scope="col">Date de traitement</th>
-                            <th scope="col">Produit</th>
-                            <th scope="col">Nom / Prenom</th>
-                            <th scope="col">Etat</th>
-                            <th scope="col">Validation</th>
-                            <th scope="col">Commentaire</th>
-                            <th scope="col">Relancer</th>
+                            <th id="tableau_client" scope="col">#</th>
+                            <th id="tableau_client" scope="col">Date de traitement</th>
+                            <th id="tableau_client" scope="col">Produit</th>
+                            <th id="tableau_client" scope="col">Nom / Prenom</th>
+                            <th id="tableau_client" scope="col">Etat</th>
+                            <th id="tableau_client" scope="col">Validation</th>
+                            <th id="tableau_client" scope="col">Commentaire</th>
+                            <th id="tableau_client" scope="col">Relancer</th>
                             <!-- <th scope="col">Validation</th> -->
                         </tr>
                     </thead>
@@ -377,7 +360,7 @@ $i = 1;
                     </tbody>
                 </table>
             </div>
-            <!-- </div> -->
+
         </div>
     </div>
 </div>
@@ -414,8 +397,8 @@ $i = 1;
 </div>
 
 
-
-<div class="container-fluid mt-3">
+<?php if (isset($recup_id_user)) { ?>
+<div class="container mt-3">
 
     <div class="row">
 
@@ -475,13 +458,13 @@ $i = 1;
                     <p> <strong> Numéro de facture : </strong> <?php echo ($row->numero_facture); ?> </p>
                     <a
                         href="../clients/facturation_edition.php?id_user=<?php echo $row->id_user ?>&id_paiement=<?php echo $row->id_paiement ?>"><input
-                            class="btn btn-dark btn-sm" value="editer" style="margin-left: 10px;">
+                            class="btn btn-color btn-sm" value="editer" style="margin-left: 10px;">
                     </a>
 
                     <?php } ?>
                     <?php } else { ?>
                     <?php echo 'Pas de commande sélectionnée';
-                    } ?>
+                        } ?>
                 </div>
             </div>
         </div>
@@ -500,7 +483,8 @@ $i = 1;
 
 <div class="container">
 
-    <h3 class="text-center" style="font-family:'Dancing Script',cursive;"> Location </h3><br>
+    <h3 class="text-center" style="font-family:'Dancing Script',cursive;"> Gestion de la location après facturation
+    </h3><br>
 
     <form action="admin_tableau_bord_client.php?#select_locations" id="select_locations" method="POST">
 
@@ -508,15 +492,17 @@ $i = 1;
         <input type="hidden" name="id_user" value="<?php echo @$_POST["id_user"]; ?>">
 
         <div class="text-center">
-            <label class="badge-pill badge-info">Liste des acheteurs</label>
+            <label class="badge-pill badge-info">Liste des locations</label>
             <select name="id_paiement" onchange="submit()" class="form-control">
                 <option value="">choisir la facture</option>
 
                 <?php foreach (@$recup_paiement as $row) { ?>
                 <option value="<?php echo stripslashes($row->id_paiement); ?>" <?php //permet de rester sur l'option sélectionnée
-                                                                                    if ($row->id_paiement == @$_POST["id_paiement"]) {
-                                                                                        echo " selected";
-                                                                                    } ?>>
+                                                                                        if ($row->id_paiement == @$_POST["id_paiement"]) {
+                                                                                            echo " selected";
+                                                                                        } ?>>
+
+                    <?php echo stripslashes(date("d-m-Y", strtotime($row->date_de_paiement))); ?>
                     <?php echo stripslashes($row->numero_facture); ?>
                 </option>
                 <?php } ?>
@@ -530,25 +516,21 @@ $i = 1;
 
         <table class="table">
 
-            <thead class="thead-dark">
+            <thead class="thead_tableau_client">
                 <tr>
-                    <th scope="col">#</th>
-                    <th scope="col">Numero de facture</th>
-                    <th scope="col">Date de location</th>
-                    <th scope="col">Produits</th>
-                    <th scope="col">commentaire client</th>
-                    <th scope="col">Location faite</th>
-                    <th scope="col">Validation</th>
+                    <th id="tableau_client" scope="col">#</th>
+                    <th id="tableau_client" scope="col">Numero de facture</th>
+                    <th id="tableau_client" scope="col">Date de location</th>
+                    <th id="tableau_client" scope="col">Produits</th>
+                    <th id="tableau_client" scope="col">commentaire client</th>
+                    <th id="tableau_client" scope="col">Location faite</th>
+                    <th id="tableau_client" scope="col">Validation</th>
 
                 </tr>
             </thead>
 
 
             <tbody>
-
-
-
-
 
                 <tr>
 
@@ -566,21 +548,21 @@ $i = 1;
                             <tr>
                                 <?php $date_location = ($row2->date_demande) ?>
                                 <td><?php echo date("d-m-Y", strtotime($date_location)) ?></td>
-                                <td><?php echo @$row2->nom_produit; ?></td>
+                                <td><?php echo @$row2->nom_produit; ?>
 
+                                    <br>
 
-
-                                <td><a
+                                    <a
                                         href="../produits/calendrier.php?id=<?php echo $row2->id_produit ?>&id_user=<?php echo $row2->id_user ?>&id_cat=<?php echo $row2->id_categorie ?>&id_paiement=<?php echo $row2->id_paiement ?>">lien
-                                        produit...<a></td>
+                                        pour reserver sur le calendrier<a></td>
 
                     </td>
 
                 </tr>
 
                 <?php }
-                            } else {
-                            } ?>
+                                } else {
+                                } ?>
 
 
 
@@ -606,15 +588,15 @@ $i = 1;
             <td>
 
                 <?php
-                    if (isset($id_paiement)) {
-                        if (@$recup_info_facture->recup_par_client == "" || $recup_info_facture->recup_par_client == 1) {
-                            $checked1 = "checked";
-                        } else {
-                            $checked2 = "checked";
+                        if (isset($id_paiement)) {
+                            if (@$recup_info_facture->recup_par_client == "" || $recup_info_facture->recup_par_client == 1) {
+                                $checked1 = "checked";
+                            } else {
+                                $checked2 = "checked";
+                            }
                         }
-                    }
 
-                    ?>
+                        ?>
                 <div class="custom-control custom-radio">
                     <input class="custom-control-input" type="radio" <?php echo @$checked1 ?> name="check"
                         id="customRadio1" value="1">
@@ -633,7 +615,7 @@ $i = 1;
             <td><input name="location" type="submit" class="btn btn-Dark btn-sm" value="envoyer"></input>
             </td>
             <?php } else {
-            } ?>
+                } ?>
         </form>
 
 
@@ -666,14 +648,14 @@ $i = 1;
             <div class="table-responsive">
                 <table class="table">
 
-                    <thead class="thead-dark">
+                    <thead class="thead_tableau_client">
                         <tr>
-                            <th scope="col">#</th>
-                            <th scope="col">Produit</th>
-                            <th scope="col">Date de sa demande</th>
-                            <th scope="col">Date de Location</th>
-                            <th scope="col">Lien produit</th>
-                            <th scope="col">Validation</th>
+                            <th id="tableau_client" scope="col">#</th>
+                            <th id="tableau_client" scope="col">Produit</th>
+                            <th id="tableau_client" scope="col">Date de sa demande</th>
+                            <th id="tableau_client" scope="col">Date de Location</th>
+                            <th id="tableau_client" scope="col">Lien produit</th>
+                            <th id="tableau_client" scope="col">Validation</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -740,16 +722,16 @@ $i = 1;
             <div class="table-responsive">
                 <table class="table">
 
-                    <thead class="thead-dark">
+                    <thead class="thead_tableau_client">
                         <tr>
-                            <th scope="col">#</th>
-                            <th scope="col">Produit</th>
-                            <th scope="col">Date de traitement</th>
-                            <th scope="col">Date de Location</th>
-                            <th scope="col">Lien produit</th>
-                            <th scope="col">Validation</th>
-                            <th scope="col">Commentaire</th>
-                            <th scope="col">Relancer</th>
+                            <th id="tableau_client" scope="col">#</th>
+                            <th id="tableau_client" scope="col">Produit</th>
+                            <th id="tableau_client" scope="col">Date de traitement</th>
+                            <th id="tableau_client" scope="col">Date de Location</th>
+                            <th id="tableau_client" scope="col">Lien produit</th>
+                            <th id="tableau_client" scope="col">Validation</th>
+                            <th id="tableau_client" scope="col">Commentaire</th>
+                            <th id="tableau_client" scope="col">Relancer</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -811,9 +793,10 @@ $i = 1;
         </div>
     </div>
 </div>
-
+<?php } ?>
 </div>
 
 
 <br>
-<?php include "../footer/footer.php"; ?>
+<?php require "../footer/footer.php"; ?>
+<?php require "../footer/modal.php"; ?>

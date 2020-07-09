@@ -10,7 +10,7 @@ require "../header/header.php";
 if (isset($_POST["envoi"])) {
 
 
-    @$adresse_mail = htmlspecialchars($_POST['adresse_mail']);
+    $adresse_mail = htmlspecialchars($_POST['adresse_mail']);
 
 
 
@@ -41,7 +41,7 @@ if (isset($_POST["envoi"])) {
 
         <p class="mot_de_passe_oublie_partie1_saisie">Merci de saisir votre adresse mail.</p>
 
-        <form action="mot_passe_oublie_partie1.php" method="post">
+        <form action="mot_passe_oublie_partie1" method="post">
             <input type="email" name="adresse_mail" placeholder="votre adresse mail" required>
             <input class="btn_motdepasse btn-light" type="submit" name="envoi" value="envoyer">
         </form>

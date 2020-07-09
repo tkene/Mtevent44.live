@@ -13,11 +13,11 @@ if ($_SESSION["niv"] != 1) {
 $image_unique = array();
 $liste_categorie = liste_categorie();
 
-if ($_POST) {
+if (isset($_POST)) {
 
-    @$ajouter = htmlspecialchars($_POST["ajouter"]);
-    @$modifier = htmlspecialchars($_POST["modifier"]);
-    @$supprimer = htmlspecialchars(($_POST)["supprimer"]);
+    $ajouter = htmlspecialchars($_POST["ajouter"]);
+    $modifier = htmlspecialchars($_POST["modifier"]);
+    $supprimer = htmlspecialchars($_POST["supprimer"]);
     $id_produit = htmlspecialchars($_POST["id_produit"]);
     //$id_categorie = htmlspecialchars($_POST["id_categorie"]);
     $titre_produit = htmlspecialchars($_POST["titre_produit"]);
@@ -43,7 +43,7 @@ if ($_POST) {
     // addslashes --> permet d'intégrer les ' ' évite les erreurs lorsque l'on rentre l'article
     // permet de modifier par la fonction
     if ($modifier) {
-        modif_article($id_produit, addslashes($titre_produit), addslashes($produit_long), addslashes($produit_court), addslashes($quantite), addslashes($prix_ttc), addslashes($choix_tva));
+        modif_produit($id_produit, addslashes($titre_produit), addslashes($produit_long), addslashes($produit_court), addslashes($quantite), addslashes($prix_ttc), addslashes($choix_tva));
         //modif_tags($id_article, $tags);
         img_load($id_produit);
         modif_categorie($titre_categorie, $id_categorie);
