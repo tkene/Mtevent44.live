@@ -3,6 +3,47 @@
 //  <!========================================================>
 
 
+.titre_bienvenue{
+    font-size: 65px;
+    font-family: 'Dancing Script', cursive;
+}
+.location_particulier{
+    font-size: 33px;
+    font-family: 'Dancing Script', cursive;
+}
+
+// btn accueil
+.btn-primary-accueil {
+  color: #fff;
+  background-color: #143054;
+  border-color: #143054;
+}
+.btn-primary-accueil :hover {
+  color: #fff;
+  background-color: #143054;
+  border-color: #143054;
+}
+.btn-primary-accueil :focus, .btn-primary-accueil .focus {
+  color: #fff;
+  background-color: #143054;
+  border-color: #143054;
+  box-shadow: 0 0 0 0.2rem rgba(254, 216, 84, 0.5);
+}
+.btn-primary-accueil .disabled, .btn-primary-accueil :disabled {
+  color: #fff;
+  background-color: #143054;
+  border-color: #143054;
+}
+.btn-primary-accueil :not(:disabled):not(.disabled):active, .btn-primary-accueil :not(:disabled):not(.disabled).active, .show > .btn-primary-accueil .dropdown-toggle {
+  color: #fff;
+  background-color: #143054;
+  border-color: #143054;
+}
+.btn-primary-accueil :not(:disabled):not(.disabled):active:focus, .btn-primary-accueil :not(:disabled):not(.disabled).active:focus, .show > .btn-primary-accueil .dropdown-toggle:focus {
+  box-shadow: 0 0 0 0.2rem rgba(254, 216, 84, 0.5);
+}
+
+
 .titre{
     font-family: 'Dancing Script', cursive;
     text-align: center;
@@ -23,9 +64,44 @@
 .location{
     font-family: 'Dancing Script', cursive;
     text-align: center;
+    font-size: 40px;
+}
+
+.presentation{
+    text-align: center;
+    
+    font-size: 22px;
+}
+
+#etape{
+    padding-top: 96px;
+    padding-bottom: 96px;
 }
 
 
+.formulaire_accueil{
+    margin-top: 20px;
+}
+#formulaire_contact_accueil{
+       padding-top: 25px;
+    padding-bottom: 25px;
+}
 
+.btn_color_accueil{
+   
+    background: #143054;
+    color: white;
+    @media (min-width: 1200px) { margin-left:30%;
+         width: 40%; }
+}
 
+.reveal{
+  opacity: 0;
+  transform: translateY(-30px);
+}
 
+.reveal-visible{
+  opacity: 1;
+  transform:  translateY(0);
+  transition: 1.5s cubic-bezier(.5, 0, 0, 1);
+}

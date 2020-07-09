@@ -10,6 +10,8 @@ $no_cache = uniqid();
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <meta property="og:decription"
+        content="Mtevent44 est là pour vous aider, dans la location d’éléments de décoration d’évènements comme le mariage, cousinade et baptême.">
 
     <!-- bootstrap -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
@@ -35,9 +37,9 @@ $no_cache = uniqid();
 
 
 
-<?php //header('location:accueil_et_pages_reponse/accueil.php');
+<?php header('location:../accueil_et_pages_reponse/accueil');
 ?>
-<img src="https://www.mtevent44.fr/images/maintenance-2422173_1920.png">
+<!-- <img src="https://www.mtevent44.fr/images/maintenance-2422173_1920.png"> -->
 
 
 <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
