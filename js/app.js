@@ -184,6 +184,36 @@ function easeOutCuaic(t) {
 }
 
 
+//  <!===================================================================================================>
+//  <!=============================================script Scrool ========================================>
+//  <!===================================================================================================>
+
+
+var ratio = 0.1
+var options = {
+    root: null,
+    rootMargin: '0px',
+    threshold: ratio
+}
+
+var handleIntersect = function (entries, observer) {
+    entries.forEach(function (entry) {
+        if (entry.intersectionRatio > ratio) {
+            //console.log(entry.intersectionRatio)
+            entry.target.classList.add('reveal-visible')
+            observer.unobserve(entry.target)
+        }
+    })
+}
+
+
+
+var observer = new IntersectionObserver(handleIntersect, options)
+var targets = document.querySelectorAll('.reveal').forEach(function (target) {
+    observer.observe(target)
+})
+
+
 
 
 

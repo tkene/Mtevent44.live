@@ -123,7 +123,7 @@ $liste_image = recup_des_images($id_product);
 
 <div class="container mt-5">
 
-    <h3 class="text" style="text-align:center">Avis : </h3>
+    <!-- <h3 class="text" style="text-align:center">Avis : </h3> -->
     <br>
 
 

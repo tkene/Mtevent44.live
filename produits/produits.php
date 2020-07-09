@@ -21,9 +21,9 @@ $liste_ordernum = liste_ordernum();
 <!-------------------------------------------------------->
 <br>
 
-<h1 class="titre_produits">Nos produits</h1>
+<h1 class="titre">Nos produits</h1>
 
-<br><br><br>
+<br>
 
 
 
@@ -32,33 +32,37 @@ $liste_ordernum = liste_ordernum();
 <!-------------------- les étapes de locations------------>
 <!-------------------------------------------------------->
 <!-------------------------------------------------------->
+<div class="container-fluid bg-light" id="etape">
+    <h3 class="location">Louez tout le matériel pour votre réception en 3 étapes !</h3>
+    <br>
 
-<h3 class="location">Louez tout le matériel pour votre réception en 3 étapes !</h3>
-<br>
-<div class="container">
-    <div class="row">
-        <div class="col-md-4" style="text-align:center">
-            <img class="img-responsive" src="https://www.options.fr/media/wysiwyg/icone_selection.png" alt=""><br><br>
-            <span class="step-number">
-                <h3>1</h3>
-            </span>
-            <span class="step-label">Vérifie la disponnibilitée du produit</span>
-        </div>
+    <div class="container">
+        <div class="row">
+            <div class="col-md-4" style="text-align:center">
+                <img class="img-responsive" src="https://www.options.fr/media/wysiwyg/icone_selection.png"
+                    alt=""><br><br>
+                <span class="step-number">
+                    <h3>1</h3>
+                </span>
+                <span class="step-label">Vérifie la disponibilitée du produit</span>
+            </div>
 
-        <div class="col-md-4" style="text-align:center">
-            <img class="img-responsive" src="https://www.options.fr/media/wysiwyg/icone_quantite.png" alt=""><br><br>
-            <span class="step-number">
-                <h3>2</h3>
-            </span>
-            <span class="step-label">Envoi ta demande de location</span>
-        </div>
+            <div class="col-md-4" style="text-align:center">
+                <img class="img-responsive" src="https://www.options.fr/media/wysiwyg/icone_quantite.png"
+                    alt=""><br><br>
+                <span class="step-number">
+                    <h3>2</h3>
+                </span>
+                <span class="step-label">Envoi ta demande de location</span>
+            </div>
 
-        <div class="col-md-4" style="text-align:center">
-            <img class="img-responsive" src="https://www.options.fr/media/wysiwyg/icone_valider.png" alt=""><br><br>
-            <span class="step-number">
-                <h3>3</h3>
-            </span>
-            <span class="step-label">Valide ton produit au retour</span>
+            <div class="col-md-4" style="text-align:center">
+                <img class="img-responsive" src="https://www.options.fr/media/wysiwyg/icone_valider.png" alt=""><br><br>
+                <span class="step-number">
+                    <h3>3</h3>
+                </span>
+                <span class="step-label">Procède au paiement</span>
+            </div>
         </div>
     </div>
 </div>
@@ -178,5 +182,6 @@ $liste_ordernum = liste_ordernum();
 <br>
 
 <?php
-include "../footer/footer.php";
+require "../footer/footer.php";
+require "../footer/modal.php";
 ?>

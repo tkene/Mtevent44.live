@@ -1,6 +1,7 @@
 <?php
 
-
+// ob_star() ouverture de traitement et fermeture par ob_start()
+ob_start();
 
 //page: calendrier.php
 //session_start(); //pour maintenir la session active
@@ -45,14 +46,18 @@ if ($_POST) {
     if ($ajouter) {
 
         if ($verif_doublon_article_user) {
-            $erreur = "produit déjà reservé pour changer la date supprimer l'article de votre panier";
+            header('Location: ../produits/calendrier.php?id=' . $id_produit . '&id_cat=' . $id_cat . '&msg_calendrier=false');
+            ob_end_flush();
+            //$erreur = "produit déjà reservé pour changer la date supprimer l'article de votre panier";
         } else {
             ajout_produit($id_product, $id_user, $demande);
-            $sup = "produit rajouté au panier";
+
+            header('Location: ../produits/calendrier.php?id=' . $id_produit . '&id_cat=' . $id_cat . '&msg_calendrier_ajoute=true');
+            ob_end_flush();
+            //$sup = "produit rajouté au panier";
         }
     }
 }
-
 
 
 
@@ -106,22 +111,126 @@ for ($mois = 1; $mois <= 12; $mois++) {
 //var_dump($recup_produit_calendrier);
 
 
+
+
+// <!-------------------------------------------------------->
+// <!--------- fonction pour la page calendrier-------------->
+// <!-------------------------------------------------------->
+
+
+
+function insert_calendrier($annee, $mois, $jour, $id_produit, $id_user_admin)
+{
+    global $connection;
+
+    @$id_user_admin = $_GET["id_user"];
+    $id_produit = $_GET["id"];
+    //$id_user = $_SESSION["id_user"];
+    //var_dump($id_user_admin);
+    $sql = "INSERT INTO calendrier SET date='" . $annee . "-" . $mois . "-" . $jour . "', id_produit=$id_produit, id_user=$id_user_admin";
+    $sth = $connection->prepare($sql);
+    $sth->execute();
+}
+
+
+
+function delete_calendrier($annee, $id_produit)
+{
+
+    global $connection;
+
+    $id_produit = $_GET["id"];
+
+    $sql = "DELETE FROM calendrier WHERE date='" . $annee . "-" . $_GET['mois'] . "-" . $_GET['jour'] . "' AND id_produit=$id_produit";
+    $sth = $connection->prepare($sql);
+    $sth->execute();
+}
+
+function select_calendrier($annee, $mois, $jour, $id_produit)
+{
+
+    global $connection;
+
+    //$id_produit = $_GET["id"];
+
+    $sql = "SELECT * FROM calendrier WHERE date='" . $annee . "-" . $mois . "-" . $jour . "' AND id_produit=$id_produit";
+    $sth = $connection->prepare($sql);
+    $sth->execute();
+    $resultat = $sth->fetch(PDO::FETCH_OBJ);
+    return $resultat;
+}
+
+
 ?>
+
+
+
+
+
+
 <!--==========================================================-->
 <!-- ============En tête de la page ========================= -->
 <!-- ======================================================== -->
 
 <div class="container mt-3">
     <div style="text-align: center">
-        <div class="animate">
-            <h1>Calendrier de disponibilité</h1>
 
-        </div>
+        <h1 class="titre">Calendrier de disponibilité</h1>
+
+
     </div>
 </div>
 
 <br>
+<div class="container-fluid bg-light">
+    <div class="container mt-2">
+
+
+        <!--=========================================================-->
+        <!-- ============Etapes d'utilisation========================= -->
+        <!-- ========================================================= -->
+
+        <br>
+
+
+        <h3 class="location">Louez tout le matériel pour votre réception en 3 étapes !</h3>
+        <br>
+        <div class="container">
+            <div class="row">
+                <div class="col-md-4" style="text-align:center">
+                    <img class="img-responsive" src="https://www.options.fr/media/wysiwyg/icone_selection.png"
+                        alt=""><br><br>
+                    <span class="step-number">
+                        <h3>1</h3>
+                    </span>
+                    <span class="step-label">S'inscrire</span>
+                </div>
+
+                <div class="col-md-4" style="text-align:center">
+                    <img class="img-responsive" src="https://www.options.fr/media/wysiwyg/icone_quantite.png"
+                        alt=""><br><br>
+                    <span class="step-number">
+                        <h3>2</h3>
+                    </span>
+                    <span class="step-label">Déterminez la date de location</span>
+                </div>
+
+                <div class="col-md-4" style="text-align:center">
+                    <img class="img-responsive" src="https://www.options.fr/media/wysiwyg/icone_valider.png"
+                        alt=""><br><br>
+                    <span class="step-number">
+                        <h3>3</h3>
+                    </span>
+                    <span class="step-label">Rdv au panier pour finaliser votre demande </span>
+                </div>
+            </div>
+            <br>
+        </div>
+    </div>
+</div>
+
 <div class="container mt-2">
+    <br>
     <style>
     .color-143054 {
         color: #143054;
@@ -136,54 +245,13 @@ for ($mois = 1; $mois <= 12; $mois++) {
 
 
     </div>
-    <!--=========================================================-->
-    <!-- ============Etapes d'utilisation========================= -->
-    <!-- ========================================================= -->
 
-    <br>
-
-
-    <h3 class="location">Louez tout le matériel pour votre réception en 3 étapes !</h3>
-    <br>
-    <div class="container">
-        <div class="row">
-            <div class="col-md-4" style="text-align:center">
-                <img class="img-responsive" src="https://www.options.fr/media/wysiwyg/icone_selection.png"
-                    alt=""><br><br>
-                <span class="step-number">
-                    <h3>1</h3>
-                </span>
-                <span class="step-label">S'inscrire</span>
-            </div>
-
-            <div class="col-md-4" style="text-align:center">
-                <img class="img-responsive" src="https://www.options.fr/media/wysiwyg/icone_quantite.png"
-                    alt=""><br><br>
-                <span class="step-number">
-                    <h3>2</h3>
-                </span>
-                <span class="step-label">Déterminez la Date dont<br>vous avez besoin</span>
-            </div>
-
-            <div class="col-md-4" style="text-align:center">
-                <img class="img-responsive" src="https://www.options.fr/media/wysiwyg/icone_valider.png" alt=""><br><br>
-                <span class="step-number">
-                    <h3>3</h3>
-                </span>
-                <span class="step-label">Rdv au panier pour validation envoi des dates </span>
-            </div>
-        </div>
-    </div>
-    <br>
-
-
-    <br>
 
     <!-- ================================================================= -->
     <!-- ====================Nom du produit============================== -->
     <!-- ================================================================= -->
 
-    <div class="container mt-3">
+    <div class="container" id="btn_produit">
         <div style="text-align: center">
             <div class="animate">
                 <h1 class="nom_produit" id="nom_produit_calendrier"><?php echo $recup_des_produits->nom_produit ?></h1>
@@ -197,12 +265,12 @@ for ($mois = 1; $mois <= 12; $mois++) {
 
     <div class="container mt-3">
         <div class="text-center">
-            <p><u>Choix du produit à reserver</u></p>
+            <p><u>Choix du produit à réserver</u></p>
             <?php foreach ($recup_produit_calendrier as $row) { ?>
             <?php if ($row->actif == 1) { ?>
 
             <a href="../produits/calendrier.php?id=<?php echo $row->id_produit ?>&id_cat=<?php echo $row->id_categorie ?>&id_user=<?php echo $id_user_admin ?>&#btn_produit"
-                class="btn btn-outline-success btn-sm" id="btn_produit"><?php echo $row->nom_produit ?></a>
+                class="btn btn-outline-success btn-sm"><?php echo $row->nom_produit ?></a>
 
             <?php } ?>
             <?php } ?>
@@ -237,8 +305,8 @@ for ($mois = 1; $mois <= 12; $mois++) {
             href="../admin/admin_tableau_bord_client.php?id_user1=<?php echo $id_user_admin ?>&id_paiement1=<?php echo $id_paiement_pour_admin ?>"
             role="boutton" class="btn btn-link">Retour à la gestion locative</a>
     </div>
-    <br>
 
+    <br>
 
     <!-------------------------------------------------------->
     <!--------------- input de réservation-------------------->
@@ -249,28 +317,40 @@ for ($mois = 1; $mois <= 12; $mois++) {
     <form method="post" action="">
         <div>
 
-            <p><i class="far fa-calendar-alt fa-1x color-143054"><u> Demande de reservation :</u></i> </p>
+            <p><i class="far fa-calendar-alt fa-1x color-143054"><u> Demande de réservation :</u></i> </p>
             <!-- si fonctionne pas réactiver l'input en dessous -->
             <!-- <input class="mr-sm-3" type="date" value="xxxx/xx/xx" name="demande" id="" require> -->
-            <div class="row">
 
+            <div class="row">
                 <input type="date" name="demande" class="form-control" id="" value="xxxx/xx/xx" style="width: 14rem"
                     required>
-                <div class="btn_calendrier_ajouter">
 
-                    <input type="submit" name="ajouter" class="btn btn-outline-success  btn-sm"
+                <div class="btn_calendrier_ajouter">
+                    <style>
+                    .btn-primary {
+                        background: #143054;
+                        color: white;
+                        border-color: #143054;
+                    }
+                    </style>
+                    <input type="submit" name="ajouter" class="btn btn-primary btn-sm"
                         value="Ajouter au panier"></input>
                 </div>
             </div>
+
         </div>
     </form>
 
+    <?php } else { ?>
+    <!---------------------------------------------------------------------------->
+    <!-------------------Message de rappel d'inscription-------------------------->
+    <!---------------------------------------------------------------------------->
+
+    <div class="container mt-3">
+        <p class="calendrier_message_insciption">Vous souhaitez réserver une date ? <br>Inscrivez-vous ou
+            identifiez-vous en cliquant <a href="../clients/login.php">ici</a></p>
+    </div>
     <?php } ?>
-    <!---------------------------------------------------------------------------->
-    <!---------------Permet de changer d'année de calendrier---------------------->
-    <!---------------------------------------------------------------------------->
-
-
     <!-------------------------------------------------------------------------->
     <!---------------cases de réservation et disponibilité---------------------->
     <!-------------------------------------------------------------------------->
@@ -279,11 +359,11 @@ for ($mois = 1; $mois <= 12; $mois++) {
     <div class="table-responsive">
         <table id="recap">
             <tr>
-                <td style="background:#FF8888;width:15px;height:15px;"></td>
+                <td style="background:#C43030;width:15px;height:15px;"></td>
                 <td>Réservé</td>
             </tr>
             <tr>
-                <td style="background:#88FF88;width:15px;height:15px;"></td>
+                <td style="background:#EDEFF1;width:15px;height:15px;"></td>
                 <td>Disponible</td>
             </tr>
         </table>
@@ -292,60 +372,8 @@ for ($mois = 1; $mois <= 12; $mois++) {
 
 
     <!-------------------------------------------------------->
-    <!--------- fonction pour la page calendrier-------------->
-    <!-------------------------------------------------------->
-
-    <?php
-
-                        function insert_calendrier($annee, $mois, $jour, $id_produit, $id_user_admin)
-                        {
-                            global $connection;
-
-                            @$id_user_admin = $_GET["id_user"];
-                            $id_produit = $_GET["id"];
-                            //$id_user = $_SESSION["id_user"];
-                            //var_dump($id_user_admin);
-                            $sql = "INSERT INTO calendrier SET date='" . $annee . "-" . $mois . "-" . $jour . "', id_produit=$id_produit, id_user=$id_user_admin";
-                            $sth = $connection->prepare($sql);
-                            $sth->execute();
-                        }
-
-
-
-                        function delete_calendrier($annee, $id_produit)
-                        {
-
-                            global $connection;
-
-                            $id_produit = $_GET["id"];
-
-                            $sql = "DELETE FROM calendrier WHERE date='" . $annee . "-" . $_GET['mois'] . "-" . $_GET['jour'] . "' AND id_produit=$id_produit";
-                            $sth = $connection->prepare($sql);
-                            $sth->execute();
-                        }
-
-                        function select_calendrier($annee, $mois, $jour, $id_produit)
-                        {
-
-                            global $connection;
-
-                            //$id_produit = $_GET["id"];
-
-                            $sql = "SELECT * FROM calendrier WHERE date='" . $annee . "-" . $mois . "-" . $jour . "' AND id_produit=$id_produit";
-                            $sth = $connection->prepare($sql);
-                            $sth->execute();
-                            $resultat = $sth->fetch(PDO::FETCH_OBJ);
-                            return $resultat;
-                        }
-
-                        ?>
-
-
-
-    <!-------------------------------------------------------->
     <!------------------ Partie calendrier-------------------->
     <!-------------------------------------------------------->
-
 
 
     <?php
@@ -382,18 +410,23 @@ for ($mois = 1; $mois <= 12; $mois++) {
 
         <div class="text-center">
             <tr>
+                <!-- Année -1 -->
                 <a href="../produits/calendrier.php?annee=<?php echo $annee - 1; ?>&id=<?php echo @$id_produit ?>&id_user=<?php echo @$id_user ?>&id_cat=<?php echo $row->id_categorie ?>&id_user=<?php echo $id_user_admin ?>&#nom_produit_calendrier"
                     style="font-size:60%;vertical-align:middle;text-decoration:none;"><?php echo $annee - 1; ?></a>
-                <?php echo $annee; ?> <a
-                    href="../produits/calendrier.php?annee=<?php echo $annee + 1; ?>&id=<?php echo @$id_produit ?>&id_user=<?php echo @$id_user ?>&id_cat=<?php echo $row->id_categorie ?>&id_user=<?php echo $id_user_admin ?>&#nom_produit_calendrier"
+                <!-- Année N -->
+                <?php echo $annee; ?>
+                <!-- Année +1 -->
+                <a href="../produits/calendrier.php?annee=<?php echo $annee + 1; ?>&id=<?php echo @$id_produit ?>&id_user=<?php echo @$id_user ?>&id_cat=<?php echo $row->id_categorie ?>&id_user=<?php echo $id_user_admin ?>&#nom_produit_calendrier"
                     style="font-size:60%;vertical-align:middle;text-decoration:none;"><?php echo $annee + 1; ?></a>
             </tr>
         </div>
+
         <br>
 
         <!-- --------------------------------------------------- -->
         <!-- Information envoyer pour faire la reservation ----- -->
         <!-- --------------------------------------------------- -->
+
         <div class="table-responsive">
             <table
                 style="border:1px solid black;border-collapse:collapse;box-shadow: 10px 10px 5px #888888;width: 100%">
@@ -405,21 +438,57 @@ for ($mois = 1; $mois <= 12; $mois++) {
                         style="text-shadow: 1px 1px 1px #000;color:white;width:75px;border-right:1px solid black;border-bottom:1px solid black;background:#143054; text-align:center;">
                         Janvier</th>
                     <th
-                        style="text-shadow: 1px 1px 1px #000;color:white;width:75px;border-right:1px solid black;border-bottom:1px solid black;background:#143054">
+                        style="text-shadow: 1px 1px 1px #000;color:white;width:75px;border-right:1px solid black;border-bottom:1px solid black;background:#143054; text-align:center;">
                         Février</th>
                     <th
-                        style="text-shadow: 1px 1px 1px #000;color:white;width:75px;border-right:1px solid black;border-bottom:1px solid black;background:#143054">
+                        style="text-shadow: 1px 1px 1px #000;color:white;width:75px;border-right:1px solid black;border-bottom:1px solid black;background:#143054; text-align:center;">
                         Mars</th>
-                    <th style="<?php echo $StyleTh; ?>background:#143054">Avril</th>
-                    <th style="<?php echo $StyleTh; ?>background:#143054">Mai</th>
-                    <th style="<?php echo $StyleTh; ?>background:#143054">Juin</th>
-                    <th style="<?php echo $StyleTh; ?>background:#143054">Juillet</th>
-                    <th style="<?php echo $StyleTh; ?>background:#143054">Août</th>
-                    <th style="<?php echo $StyleTh; ?>background:#143054">Septembre</th>
-                    <th style="<?php echo $StyleTh; ?>background:#143054">Octobre</th>
-                    <th style="<?php echo $StyleTh; ?>background:#143054">Novembre</th>
-                    <th style="<?php echo $StyleTh; ?>background:#143054">Décembre</th>
+                    <th
+                        style="text-shadow: 1px 1px 1px #000;color:white;width:75px;border-right:1px solid black;border-bottom:1px solid black;background:#143054; text-align:center;">
+                        Avril</th>
+                    <th
+                        style="text-shadow: 1px 1px 1px #000;color:white;width:75px;border-right:1px solid black;border-bottom:1px solid black;background:#143054; text-align:center;">
+                        Mai</th>
+                    <th
+                        style="text-shadow: 1px 1px 1px #000;color:white;width:75px;border-right:1px solid black;border-bottom:1px solid black;background:#143054; text-align:center;">
+                        Juin</th>
+                    <th
+                        style="text-shadow: 1px 1px 1px #000;color:white;width:75px;border-right:1px solid black;border-bottom:1px solid black;background:#143054; text-align:center;">
+                        Juillet</th>
+                    <th
+                        style="text-shadow: 1px 1px 1px #000;color:white;width:75px;border-right:1px solid black;border-bottom:1px solid black;background:#143054; text-align:center;">
+                        Août</th>
+                    <th
+                        style="text-shadow: 1px 1px 1px #000;color:white;width:75px;border-right:1px solid black;border-bottom:1px solid black;background:#143054; text-align:center;">
+                        Septembre</th>
+                    <th
+                        style="text-shadow: 1px 1px 1px #000;color:white;width:75px;border-right:1px solid black;border-bottom:1px solid black;background:#143054; text-align:center;">
+                        Octobre</th>
+                    <th
+                        style="text-shadow: 1px 1px 1px #000;color:white;width:75px;border-right:1px solid black;border-bottom:1px solid black;background:#143054; text-align:center;">
+                        Novembre</th>
+                    <th
+                        style="text-shadow: 1px 1px 1px #000;color:white;width:75px;border-right:1px solid black;border-bottom:1px solid black;background:#143054; text-align:center;">
+                        Décembre</th>
                 </tr>
+
+                <!-- <tr style="border-right:1px solid black;">
+                                        <th style="text-shadow: 1px 1px 1px #000;color:white;width:75px;border-right:1px solid black;border-bottom:1px solid black;background:#143054; text-align:center;">
+                                            Janvier</th>
+                                        <th style="text-shadow: 1px 1px 1px #000;color:white;width:75px;border-right:1px solid black;border-bottom:1px solid black;background:#143054">
+                                            Février</th>
+                                        <th style="text-shadow: 1px 1px 1px #000;color:white;width:75px;border-right:1px solid black;border-bottom:1px solid black;background:#143054">
+                                            Mars</th>
+                                        <th style="<?php echo $StyleTh; ?>background:#143054">Avril</th>
+                                        <th style="<?php echo $StyleTh; ?>background:#143054">Mai</th>
+                                        <th style="<?php echo $StyleTh; ?>background:#143054">Juin</th>
+                                        <th style="<?php echo $StyleTh; ?>background:#143054">Juillet</th>
+                                        <th style="<?php echo $StyleTh; ?>background:#143054">Août</th>
+                                        <th style="<?php echo $StyleTh; ?>background:#143054">Septembre</th>
+                                        <th style="<?php echo $StyleTh; ?>background:#143054">Octobre</th>
+                                        <th style="<?php echo $StyleTh; ?>background:#143054">Novembre</th>
+                                        <th style="<?php echo $StyleTh; ?>background:#143054">Décembre</th>
+                                    </tr> -->
 
 
                 <tr>
@@ -445,10 +514,10 @@ for ($mois = 1; $mois <= 12; $mois++) {
                                         ?>
                 <tr>
                     <td
-                        style="<?php echo $JourReserve == 1 ? "background:#FF8888;" : "background:#88FF88;"; ?>border-bottom:1px solid #eee;">
+                        style="<?php echo $JourReserve == 1 ? "background:#C43030;" : "background:#EDEFF1;"; ?>border-bottom:1px solid #eee;">
                         <?php echo $jours[$Jr]; ?></td>
                     <td
-                        style="<?php echo $JourReserve == 1 ? "background:#FF8888;" : "background:#88FF88;"; ?>border-bottom:1px solid #eee;">
+                        style="<?php echo $JourReserve == 1 ? "background:#C43030;" : "background:#FFFFFF;"; ?>border-bottom:1px solid #eee;">
                         <?php echo $jour; ?></td>
                     <?php
                                                 if ($Jr > 5) {
@@ -492,5 +561,7 @@ for ($mois = 1; $mois <= 12; $mois++) {
 </div>
 </div>
 <br>
+
 <?php
-    include "../footer/footer.php"; ?>
+    require "../footer/footer.php"; ?>
+<?php require "../footer/modal.php"; ?>
