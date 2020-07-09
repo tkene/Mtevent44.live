@@ -21,15 +21,16 @@
 
     <p>Bonjour</p> <?php echo  @$prenom . " " . @$nom ?>
 
-    <p>On te remercie pour ta commande , nous revenons vers toi dans les 24h à 48h pour fixer une date.<br><br>Tu
-        pourras venir récupérer ton ou t'es produits 48heures avant la date
-        prévue.<br><br> Retrouve ci-joint ton numéro de facture : <?php echo $num_facture ?>.<br>(Pour imprimer la
+    <p>Nous te remercions pour ta commande.
+        Nous revenons vers toi d'ici 24h à 48h pour fixer une date de rendez-vous pour l'enlèvement de tes
+        produits.<br><br>
+        Nous prévoyons généralement ce rendez-vous 48h avant la date de ton événement.<br><br>
+        Retrouve ci-joint ton numéro de facture : <?php echo $num_facture ?>.<br>(Pour imprimer la
         facture
-        retourne sur le site et connecte toi pour te rendre à la rubrique mes commandes).<br>Pour rappel voiçi notre
-        adresse
-        de contact Mtevenement44@gmail.com.</p>
-    <br>
-    <p>A bientôt sur notre site </p><a href="www.mtevent44.fr">www.mtevent44.fr</a>
+        retourne sur le site et connecte toi pour te rendre dans la rubrique "mes commandes").<br>Pour rappel voici
+        notre adresse de contact Mtevenement44@gmail.com.</p>
+    <br><br>
+    <p>Bonne organisation et à bientôt sur notre site </p><a href="www.mtevent44.fr">www.MTevent44.fr</a>
     <br>
     <img class="" src="https://www.mtevent44.fr/images/logo/logo_mail.jpg">
 

@@ -1,11 +1,14 @@
 <?php
 ob_start();
-//include "fonction.php";
+require '../connect/connect.php';
+require '../connect/crypt.php';
+
 
 @$nom =  urlencode($_GET['nom']);
 @$prenom = urlencode($_GET['prenom']);
 @$nom_produit = urlencode($_GET['nom_produit']);
-@$id_user = $_GET['id_user'];
+$id_user = $_GET['id_user'];
+$var1 = aesEncrypt($id_user);
 // @$pass_hash =  cryptage($recup_id);
 
 
@@ -60,7 +63,7 @@ if (!$mail->send()) {
     echo 'Mailer Error: ' . $mail->ErrorInfo;
 } else {
     echo 'Le message a bien été envoyé !';
-    header("location:../clients/panier.php?id_user1=" . $id_user);
+    header("location:../clients/panier.php?var1=" . $var1);
     ob_end_flush();
     exit();
 }

@@ -17,15 +17,18 @@
     <h1>Relance de réservation</h1>
     <p>Bonjour <?php echo $prenom ?>, </p>
     <br>
-    <p>Tu nous a fais une réservation pour le produit :<?php echo $nom_produit ?>.</p>
+    <p>Nous avions reçu une demande de réservation pour le produit :<?php echo $nom_produit ?>.</p>
     <br>
-    <p>Malheureusement nous n'avons pas de nouvelle. Si tu souhaites réserver la date, nous t'invitons à finaliser ta
-        commande, sans nouvelle de ta part dans les 48heures nous devrons supprimer ta demande de nos réservations.
-        (Mais pas d'inquiétude si ton produit est encore disponnible tu pourras à nouveau le réserver à la même
-        date)<br><br> Nous espérons te revoir rapidement sur notre site <a>wwww.MTevent44.fr</a></p>
+    <p>Malheureusement tu n'as pas été au bout de ta réservation. Si tu souhaites réserver la date, nous t'invitons à
+        finaliser ta
+        commande au plus vite afin de garantir sa disponibilité à la date souhaitée. Sans nouvelle de ta part sous 48h
+        nous devrons supprimer ta demande de réservation.
+        Si tu souhaites te positionner après ce délai et que le produit est encore disponible, il faudra seulement que
+        tu relances une demande de réservation. <br><br> Nous espérons te revoir rapidement sur notre site
+        <a>wwww.MTevent44.fr</a></p>
     <br>
 
-    <p>A bientôt sur notre site </p><a href="www.mtevent44.fr">www.mtevent44.fr</a>
+    <p>A bientôt sur notre site </p><a href="www.mtevent44.fr">www.MTevent44.fr</a>
     <br>
     <img class="" src="https://www.mtevent44.fr/images/logo/logo_mail.jpg">
 

@@ -67,14 +67,14 @@ if (isset($_POST['g-recaptcha-response'])) {
             echo 'Mailer Error: ' . $mail->ErrorInfo;
         } else {
             $retour_mail = 'Le message a bien été envoyé !';
-            header('location:https://www.mtevent44.fr/accueil_et_pages_reponse/reponse_mail.php');
+            header('location:https://www.mtevent44.fr/accueil_et_pages_reponse/accueil.php?&message_contact=true');
             exit();
         }
     } else {
         $errors = $resp->getErrorCodes();
 
         //$erreur = 'Captcha non rempli ou incorrect';
-        header('location:https://www.mtevent44.fr/accueil_et_pages_reponse/reponse_mail_negative.php');
+        header('location:https://www.mtevent44.fr/accueil_et_pages_reponse/accueil.php?&message_contact=false');
         exit();
         //var_dump($errors);
     }
@@ -82,6 +82,6 @@ if (isset($_POST['g-recaptcha-response'])) {
 
     //$erreur =  'Captcha non rempli';
     //var_dump($erreur);
-    header('location:https://www.mtevent44.fr/accueil_et_pages_reponse/reponse_mail_negative.php');
+    header('location:https://www.mtevent44.fr/accueil_et_pages_reponse/accueil.php?&message_contact=false');
     exit();
 }

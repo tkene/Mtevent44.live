@@ -7,6 +7,7 @@ ob_start();
 @$id_user = $_GET['id_user'];
 @$num_facture = urlencode($_GET['num_facture']);
 @$adresse_mail = $_GET['adresse_mail'];
+$code_promo = $_GET['code_promo'];
 // @$pass_hash =  cryptage($recup_id);
 //var_dump($id_user);
 
@@ -61,7 +62,7 @@ if (!$mail->send()) {
     echo 'Mailer Error: ' . $mail->ErrorInfo;
 } else {
     //echo 'Le message a bien été envoyé !';
-    header('location:../accueil_et_pages_reponse/confirmation_paiement.php?id=' . $id_user . '&num_facture=' . $num_facture);
+    header('location:https://www.mtevent44.fr/accueil_et_pages_reponse/confirmation_paiement.php?id=' . $id_user . '&num_facture=' . $num_facture . '&code_promo=' . $code_promo);
     ob_end_flush();
     exit();
 }

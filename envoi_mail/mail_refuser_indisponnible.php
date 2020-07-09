@@ -18,14 +18,16 @@
     <h1>Produit indisponible </h1>
     <p>Bonjour <?php echo $prenom ?> <?php $nom ?>, </p>
     <br>
-    <p>Nous te remercions de l'intérêt porté à notre produit. <br> Mais malheureusement le produit :
+    <p>Nous te remercions de l'intérêt porté à notre produit. <br> Malheureusement le produit :
         <?php echo $nom_produit ?></p>
     <br>
-    <p>n'est plus disponible à la date demandée. Merci de choisir une autre date disponnible ou de prendre contact avec
+    <p>n'est plus disponible à la date souhaitée.
+        <br><br>Nous t'invitons à sélectionner une autre date ou de prendre contact
+        avec
         notre service client par mail : mtevenement44@gmail.com.</p>
     <br>
 
-    <p>A bientôt sur notre site </p><a href="www.mtevent44.fr">www.mtevent44.fr</a>
+    <p>A bientôt sur notre site </p><a href="www.mtevent44.fr">www.MTevent44.fr</a>
     <br>
     <img class="" src="https://www.mtevent44.fr/images/logo/logo_mail.jpg">
 

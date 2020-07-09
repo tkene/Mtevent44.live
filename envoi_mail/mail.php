@@ -17,24 +17,24 @@
 </head>
 
 <body>
-    <h1>Message envoyer par client non inscrit</h1>
-    <p>Bonjour Maeva, </p>
+    <h1>Message envoyé par client non inscrit</h1>
+    <p>Bonjour Maëva, </p>
     <br>
     <p>Coordonnées du client pour être recontacté :</p>
     <br>
     <p>Nom : <?php echo $nom ?></p>
     <br>
-    <p>Prenom : <?php echo $prenom ?></p>
+    <p>Prénom : <?php echo $prenom ?></p>
     <br>
-    <p>tel : <?php echo $tel ?></p>
+    <p>Tel : <?php echo $tel ?></p>
     <br>
-    <p>mail : <?php echo $mail_visiteur ?></p>
+    <p>Mail : <?php echo $mail_visiteur ?></p>
     <br>
     <p>Message :</p>
     <br>
     <p> <?php echo $message ?></p>
     <br>
-    <p>Lien du site d'inscription : <a href="www.mtevent44.fr">www.mtevent44.fr</a></p>
+    <p>Lien du site d'inscription : <a href="www.mtevent44.fr">www.MTevent44.fr</a></p>
     <img class="" src="https://www.mtevent44.fr/images/logo/logo_mail.jpg">
 
 </body>

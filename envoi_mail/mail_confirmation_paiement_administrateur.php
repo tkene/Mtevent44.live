@@ -26,11 +26,11 @@
     <p> Le client a procédé à un paiement pour une location dont le numéro de facture est : <?php echo $num_facture ?>
     </p>
 
-    <p>Attention ! ne pas oublier :</p><br>
+    <p>/!\ Attention ne pas oublier de </p><br>
 
-    <p>prendre contact avec la cliente pour fixer un RDV. Adresse mail du client : <?php echo $adresse_mail ?></p>
+    <p>Prendre contact avec le client pour fixer un RDV. Adresse mail du client : <?php echo $adresse_mail ?></p>
 
-    <p>Lien sur le site de location : </p><a href="www.mtevent44.fr">www.mtevent44.fr</a>
+    <p>Lien sur le site de location : </p><a href="www.mtevent44.fr">www.MTevent44.fr</a>
     <br>
     <img class="" src="https://www.mtevent44.fr/images/logo/logo_mail.jpg">
 

@@ -50,16 +50,22 @@ function verif_login($login, $passe)
                 $_SESSION["mail"] = $resultat->mail;
                 $_SESSION["tel"] = $resultat->phone;
 
-                header('Location:../accueil_et_pages_reponse/accueil_user.php');
+                header('Location:../accueil_et_pages_reponse/accueil_user');
                 exit();
             }
         } else {
-            $erreur = "Mot de passe incorrect";
-            return $erreur;
+
+            header('Location:../clients/login.php?message_login=false');
+            exit();
+            //$erreur = "Mot de passe incorrect";
+            //return $erreur;
         }
     } else {
-        $erreur = "Votre login est faux.";
-        return $erreur;
+
+        header('Location:../clients/login.php?message_login=false2');
+        exit();
+        //$erreur = "Votre login est faux.";
+        //return $erreur;
     }
 }
 
@@ -425,7 +431,7 @@ WHERE id_user='$id_user'";
 //<!-------------------------------------------------------->
 
 
-function modif_article(
+function modif_produit(
     $id_produit,
     $titre_produit,
     $produit_long,
@@ -1410,11 +1416,10 @@ function recup_panier($id_user)
     $sql = "SELECT * FROM panier
     INNER JOIN users ON users.id_user = panier.id_user
     INNER JOIN produits ON produits.id_produit = panier.id_produit
-    -- INNER JOIN images ON images.id_produit = panier.id_produit
-    WHERE users.id_user = $id_user
+    -- INNER JOIN images ON images.id_produit = panier.id_produit 
+    WHERE users.id_user = $id_user 
     
-    ORDER BY id_panier ASC 
-    ";
+    ORDER BY id_panier ASC";
     $sth = $connection->prepare($sql);
     $sth->execute();
 
@@ -1559,7 +1564,7 @@ function recup_produit_calendrier($id_produit, $id_categorie)
 //<!---------fonction permet de supprimer supprimer la demande client-------->
 //<!------------------------------------------------------------------------->
 
-function paiement_paypal_success($id_user)
+function paiement_paypal_success($id_user, $promo)
 {
 
     global $connection;
@@ -1579,6 +1584,13 @@ function paiement_paypal_success($id_user)
 
     $id_paiement = $connection->lastInsertId();
 
+
+
+    $sql = "UPDATE paiement
+    SET use_promo = '$promo'
+    WHERE id_user=$id_user AND id_paiement = $id_paiement";
+    $sth = $connection->prepare($sql);
+    $sth->execute();
 
 
     $sql = "UPDATE panier
@@ -1720,7 +1732,7 @@ function recup_paiement($id_user)
     $sql =
         "SELECT *
 FROM paiement 
-WHERE id_user = $id_user";
+WHERE id_user = $id_user ORDER BY date_de_paiement DESC";
     $sth = $connection->prepare($sql);
     $sth->execute();
 
@@ -1754,6 +1766,51 @@ WHERE id_user = $recup_id_user AND id_paiement = $recup_id_paiement";
     return $resultat;
 }
 
+
+// <!----------------------------------------------------------------------------------------->
+// <!---------------------facturation recup code promotion------------------------------------>
+// <!----------------------------------------------------------------------------------------->
+
+
+function recup_info_code_promo($var3)
+{
+
+    global $connection;
+    $sql =
+        "SELECT *
+        FROM code_promotion 
+        WHERE nom_promo = '$var3'";
+    $sth = $connection->prepare($sql);
+    $sth->execute();
+
+    $resultat = $sth->fetchAll(PDO::FETCH_OBJ);
+    //var_dump($resultat);
+
+    return $resultat;
+}
+
+
+// <!-------------------------------------------------------------------------------->
+// <!---------------------------verif code promo------------------------------------->
+// <!-------------------------------------------------------------------------------->
+function select_type($recup_info_code_promo)
+{
+    global $connection;
+    $sql =
+        "SELECT *
+        FROM code_promotion
+        WHERE nom_promo = :nom_promo";
+    $sth = $connection->prepare($sql);
+    $sth->execute(array(
+        ':nom_promo' => $recup_info_code_promo
+    ));
+
+    $resultat = $sth->fetch(PDO::FETCH_OBJ);
+
+    return $resultat->type_promo;
+
+    //var_dump($resultat);
+}
 
 
 // <!-------------------------------------------------------------------------------------->
@@ -1816,5 +1873,591 @@ function mes_commandes($id_user)
 
     $resultat = $sth->fetchAll(PDO::FETCH_OBJ);
 
+    return $resultat;
+}
+
+
+// <!---------------------------------------------------------------------------->
+// <!------------------------------Mes commandes--------------------------------->
+// <!---------------------------------------------------------------------------->
+
+function add_code_promo($Code, $id_type, $Valeur, $montant_mini_achat, $date_de_debut, $date_de_fin)
+{
+
+    // recup de la connection
+    global $connection;
+    // insert dans la table users
+    $sql_ins =
+        "INSERT INTO code_promotion(nom_promo, type_promo, valeur_promo, montant_mini, date_debut, date_fin)
+        VALUES (:nom_promo, :type_promo, :valeur_promo, :montant_mini, :date_debut, :date_fin)";
+
+    $sth = $connection->prepare($sql_ins);
+    $sth->execute(array(
+        ':nom_promo' => $Code,
+        ':type_promo' => $id_type,
+        ':valeur_promo' => $Valeur,
+        ':montant_mini' => $montant_mini_achat,
+        ':date_debut' => $date_de_debut,
+        ':date_fin' => $date_de_fin
+
+    ));
+    //var_dump($sth);
+}
+
+// <!---------------------------------------------------------------------------->
+// <!------------------------------Add promo------------------------------------->
+// <!---------------------------------------------------------------------------->
+
+function show_promo()
+{
+    global $connection;
+    $sql =
+        "SELECT *
+        FROM code_promotion";
+    $sth = $connection->prepare($sql);
+    $sth->execute();
+
+    $resultat = $sth->fetchAll(PDO::FETCH_OBJ);
+
+    return $resultat;
+}
+
+// <!---------------------------------------------------------------------------->
+// <!---------------------------delete promo------------------------------------->
+// <!---------------------------------------------------------------------------->
+function delete_code_promo($id_promo)
+{
+
+    global $connection;
+    $sql = "UPDATE code_promotion
+    SET actif = 0
+    WHERE id_promo = $id_promo";
+    $sth = $connection->prepare($sql);
+    $sth->execute();
+}
+
+
+// <!-------------------------------------------------------------------------------->
+// <!---------------------------verif code promo------------------------------------->
+// <!-------------------------------------------------------------------------------->
+function select($promo)
+{
+    global $connection;
+    $sql =
+        "SELECT *
+        FROM code_promotion
+        WHERE nom_promo = :nom_promo";
+    $sth = $connection->prepare($sql);
+    $sth->execute(array(
+        ':nom_promo' => $promo
+    ));
+
+    $resultat = $sth->fetch(PDO::FETCH_OBJ);
+
+    return $resultat->type_promo;
+
+    //var_dump($resultat);
+}
+
+// <!-------------------------------------------------------------------------------->
+// <!---------------------------verif code promo------------------------------------->
+// <!-------------------------------------------------------------------------------->
+function verif_code_promo($promo)
+{
+    global $connection;
+    $sql =
+        "SELECT *
+        FROM code_promotion
+            WHERE nom_promo = :nom_promo";
+    $sth = $connection->prepare($sql);
+    $sth->execute(array(
+        ':nom_promo' => $promo
+    ));
+
+    $resultat = $sth->fetch(PDO::FETCH_OBJ);
+
+    return $resultat->nom_promo;
+
+    //var_dump($resultat);
+}
+
+// <!-------------------------------------------------------------------------------->
+// <!---------------------------verif montant promo------------------------------------->
+// <!-------------------------------------------------------------------------------->
+
+function verif_montant_promo($promo)
+{
+    //var_dump($promo);
+    //die();
+    global $connection;
+    $sql =
+        "SELECT *
+        FROM code_promotion
+        WHERE nom_promo = :nom_promo";
+    $sth = $connection->prepare($sql);
+    $sth->execute(array(
+        ':nom_promo' => $promo
+    ));
+
+    $resultat = $sth->fetch(PDO::FETCH_OBJ);
+    //var_dump($resultat);
+    return $resultat->montant_mini;
+}
+
+// <!-------------------------------------------------------------------------------->
+// <!---------------------------Valeur promo----------------------------------------->
+// <!-------------------------------------------------------------------------------->
+
+function valeur_promo($promo)
+{
+    //var_dump($promo);
+    //die();
+    global $connection;
+    $sql =
+        "SELECT *
+        FROM code_promotion
+        WHERE nom_promo = :nom_promo";
+    $sth = $connection->prepare($sql);
+    $sth->execute(array(
+        ':nom_promo' => $promo
+    ));
+
+    $resultat = $sth->fetch(PDO::FETCH_OBJ);
+    //var_dump($resultat);
+    return $resultat->valeur_promo;
+}
+
+
+// <!-------------------------------------------------------------------------------->
+// <!---------------------------date_déebut_promo------------------------------------------->
+// <!-------------------------------------------------------------------------------->
+
+function date_debut_promo($promo)
+{
+
+    global $connection;
+    $sql =
+        "SELECT *
+        FROM code_promotion
+        WHERE nom_promo = :nom_promo";
+    $sth = $connection->prepare($sql);
+    $sth->execute(array(
+        ':nom_promo' => $promo
+    ));
+
+    $resultat = $sth->fetch(PDO::FETCH_OBJ);
+    //var_dump($resultat);
+    return $resultat->date_debut;
+}
+
+// <!-------------------------------------------------------------------------------->
+// <!---------------------------date_fin_promo------------------------------------------->
+// <!-------------------------------------------------------------------------------->
+
+function date_fin_promo($promo)
+{
+
+    global $connection;
+    $sql =
+        "SELECT *
+        FROM code_promotion
+        WHERE nom_promo = :nom_promo";
+    $sth = $connection->prepare($sql);
+    $sth->execute(array(
+        ':nom_promo' => $promo
+    ));
+
+    $resultat = $sth->fetch(PDO::FETCH_OBJ);
+    //var_dump($resultat);
+    return $resultat->date_fin;
+}
+
+
+
+
+// <!-------------------------------------------------------------------------------->
+// <!---------------------------actif promo------------------------------------------->
+// <!-------------------------------------------------------------------------------->
+
+function actif_promo($promo)
+{
+
+    global $connection;
+    $sql =
+        "SELECT *
+        FROM code_promotion
+        WHERE nom_promo = :nom_promo";
+    $sth = $connection->prepare($sql);
+    $sth->execute(array(
+        ':nom_promo' => $promo
+    ));
+
+    $resultat = $sth->fetch(PDO::FETCH_OBJ);
+    //var_dump($resultat);
+    return $resultat->actif;
+}
+
+
+
+
+
+
+// <!-------------------------------------------------------------------------------->
+// <!---------------------------verif code promo------------------------------------->
+// <!-------------------------------------------------------------------------------->
+function type_promo($type_rdt)
+{
+    global $connection;
+    $sql =
+        "SELECT *
+        FROM code_promotion
+        WHERE nom_promo = :nom_promo";
+    $sth = $connection->prepare($sql);
+    $sth->execute(array(
+        ':nom_promo' => $type_rdt
+    ));
+
+    $resultat = $sth->fetch(PDO::FETCH_OBJ);
+
+    return $resultat->type_promo;
+
+    //var_dump($resultat);
+}
+
+
+// <!-------------------------------------------------------->
+// <!---------------select liste des titres------------------>
+// <!-------------------------------------------------------->
+// select liste des titres ---- ORDER BY "ASC ou DESC "--> permet de mettre dans l'ordre alphabétique
+
+function liste_titre_article()
+{
+    global $connection;
+    $sql = "SELECT * 
+    FROM blog 
+    WHERE actif=1 ORDER BY titre_article ASC";
+    $sth = $connection->prepare($sql);
+    $sth->execute();
+
+    $resultat = $sth->fetchAll(PDO::FETCH_OBJ);
+
+    return $resultat;
+}
+
+function liste_categorie_article()
+{
+    global $connection;
+    $sql = "SELECT * FROM categories_blog";
+    $sth = $connection->prepare($sql);
+    $sth->execute();
+
+    $resultat = $sth->fetchAll(PDO::FETCH_OBJ);
+
+    return $resultat;
+}
+
+
+//<!-------------------------------------------------------->
+//<!---------récup un article demandé par id_article-------->
+//<!-------------------------------------------------------->
+
+function article_unique($id_article)
+{
+
+    global $connection;
+
+    $sql =
+        "SELECT *
+FROM liaisons_articles
+INNER JOIN blog ON blog.id_article = liaisons_articles.id_article
+INNER JOIN categories_blog ON  categories_blog.id_categorie = liaisons_articles.id_categorie_article
+WHERE liaisons_articles.id_article = $id_article
+";
+    $sth = $connection->prepare($sql);
+    $sth->execute();
+
+    $resultat = $sth->fetch(PDO::FETCH_OBJ);
+
+    return $resultat;
+
+    $_SESSION["nom_produit"] = $resultat->titre_article;
+    $_SESSION["nom_court"] = $resultat->text_court;
+    $_SESSION["id_produit"] = $resultat->id_article;
+    $_SESSION["id_categorie"] = $resultat->id_categorie_article;
+
+    //var_dump($resultat);
+
+
+}
+
+//<!-------------------------------------------------------->
+//<!---------récup un article demandé par id_article-------->
+//<!-------------------------------------------------------->
+
+function image_unique_article($id_article)
+{
+    global $connection;
+    $sql =
+        "SELECT *
+FROM images_article
+WHERE id_article = $id_article
+";
+    $sth = $connection->prepare($sql);
+    $sth->execute();
+
+    $resultat = $sth->fetchAll(PDO::FETCH_OBJ);
+
+    return $resultat;
+
+
+    //var_dump($resultat);
+
+
+    // //recuperation de l'image
+    // $filename = img_load($id_produit);
+    // if (isset($filename)) {
+    //     //update pour le nom de l'image
+    //     $sql = "UPDATE images
+    // SET name_photo = '$filename'
+    // WHERE id_produit = $id_produit";
+    //     $sth = $connection->prepare($sql);
+    //     $sth->execute();
+    // }
+}
+
+//<!--------------------------------------------------------->
+//<!-------------------ajout des articles-------------------->
+//!---------------------------------------------------------->
+
+function insert_article($titre_article, $texte_court, $article_long)
+{
+    // recup de la connection
+    global $connection;
+    // insert dans la table produits
+    $sql_ins =
+        "INSERT INTO blog(titre_article,text_court,text_long)
+VALUES (:titre_article, :text_court, :text_long) ";
+
+    $sth = $connection->prepare($sql_ins);
+    $sth->execute(array(
+        ':titre_article' => $titre_article,
+        ':text_court' => $texte_court,
+        ':text_long' => $article_long
+
+
+    ));
+
+    //var_dump($commentaire);
+
+    // // recuperation de id_produit
+    $id_article = $connection->lastInsertId();
+    // var_dump($id_article);
+    // die();
+    // $id_user = $_SESSION["id_user"];
+    // appel la function pour passer les id
+    //produit_unique($id_produit);
+
+
+    img_load_articles($id_article);
+
+    // $sql = "UPDATE images
+    // SET name_photo = '$filename'
+    // WHERE id_produit = $id_produit";
+    // $sth = $connection->prepare($sql);
+    // $sth->execute();
+
+
+    return $id_article;
+
+    //var_dump($filename);
+}
+
+function insert_categorie_article($titre_categorie_article)
+{
+    // recup de la connection
+    global $connection;
+    // insert dans la table produits
+    $sql_ins =
+        "INSERT INTO categories_blog(titre_article_categorie)
+        VALUES (:titre_article_categorie) ";
+
+    $sth = $connection->prepare($sql_ins);
+    $sth->execute(array(
+        ':titre_article_categorie' => $titre_categorie_article
+
+
+    ));
+
+
+    // // recuperation de id_categorie
+    $id_article = $connection->lastInsertId();
+    return $id_article;
+}
+
+// <!-------------------------------------------------------->
+// <!---------------insert liaison blog --------------------->
+// <!-------------------------------------------------------->
+
+function insert_liaison_article($id_article, $id_categorie)
+{
+    // recup de la connection
+    global $connection;
+
+    $sql_ins = "INSERT INTO  liaisons_articles(id_article, id_categorie_article) VALUES (:id_article, :id_categorie_article)";
+
+    $sth = $connection->prepare($sql_ins);
+    $sth->execute(array(
+        ':id_article' => $id_article,
+        ':id_categorie_article' => $id_categorie
+
+    ));
+}
+
+
+//<!---------------------------------------------------------------------->
+//<!--------- fonction qui permet de modifier les articles --------------->
+//<!---------------------------------------------------------------------->
+
+
+function modif_article(
+    $id_article,
+    $titre_article,
+    $texte_court,
+    $article_long
+
+) {
+    global $connection;
+
+    //modification de l'article
+    $sql = "UPDATE blog
+SET titre_article = :titre_article, text_court = :text_court, text_long = :text_long
+WHERE id_article = :id_article";
+    $sth = $connection->prepare($sql);
+    $sth->execute(array(
+        ':titre_article' => $titre_article,
+        ':text_court' => $texte_court,
+        ':text_long' => $article_long,
+        ':id_article' => $id_article
+    ));
+
+
+
+    //modification de la liaisons
+    // $sql = "UPDATE liaisons
+    // SET id_categorie = '$id_categorie'
+    // WHERE id_article = $id_article";
+    // $sth = $connection->prepare($sql);
+    // $sth->execute();
+
+
+    // Sélection de l'image pour comparaison
+    // $sql_img = "SELECT * FROM articles where id_article = $id_article ";
+    // $sth = $connection->prepare($sql_img);
+    // $sth->execute();
+
+    // $resultat = $sth->fetch(PDO::FETCH_OBJ);
+
+    // //detruire l'image si différente de l'image upload
+    // if ($_FILES["image"]["name"] != "") {
+
+    // if (isset($resultat->img)) {
+
+    // if ($resultat->img != $_FILES["image"]["name"]) {
+
+    // unlink("upload/" . @$resultat->img);
+    // }
+    // }
+    // }
+    //var_dump($sth_img);
+
+
+    // //recuperation de l'image
+    // $filename = img_load($id_produit);
+    // if (isset($filename)) {
+    //     //update pour le nom de l'image
+    //     $sql = "UPDATE images
+    // SET name_photo = '$filename'
+    // WHERE id_produit = $id_produit";
+    //     $sth = $connection->prepare($sql);
+    //     $sth->execute();
+    // }
+}
+
+function modif_categorie_article($titre_categorie_article, $id_categorie)
+{
+
+    global $connection;
+
+    //modification de l'article
+    $sql = "UPDATE categories_blog
+SET titre_article_categorie= :titre_article_categorie
+WHERE id_categorie = :id_categorie";
+    $sth = $connection->prepare($sql);
+    $sth->execute(array(
+        ':titre_article_categorie' => $titre_categorie_article,
+        ':id_categorie' => $id_categorie
+    ));
+
+    //     //modification de la liaisons
+    //     $sql = "UPDATE liaisons
+    //     SET id_categorie = '$id_categorie'
+    //     WHERE id_article = $id_article";
+    //     $sth = $connection->prepare($sql);
+    //     $sth->execute();
+}
+
+
+//<!-------------------------------------------------------->
+//<!---------fonction permet de supprimer l'article -------->
+//<!-------------------------------------------------------->
+
+function supprimer_article_blog($id_article)
+{
+    global $connection;
+    $sql = "UPDATE blog
+            SET actif = 0
+            WHERE id_article = :id_article";
+    $sth = $connection->prepare($sql);
+    $sth->execute(array(
+        ':id_article' => $id_article
+    ));
+    //@header('Location:../admin/admin_blog.php');
+}
+
+//<!-------------------------------------------------------->
+//<!---------fonction permet de recup l'article -------->
+//<!-------------------------------------------------------->
+
+function select_article()
+{
+    global $connection;
+    $sql = "SELECT * 
+            FROM  blog
+                        ";
+    $sth = $connection->prepare($sql);
+    $sth->execute();
+    $resultat = $sth->fetchAll(PDO::FETCH_OBJ);
+
+    return $resultat;
+
+    //@header('Location:../admin/admin_blog.php');
+}
+
+
+//<!-------------------------------------------------------->
+//<!---------fonction permet de image l'article ------------>
+//<!-------------------------------------------------------->
+
+function recup_image_article($id_article)
+{
+
+    global $connection;
+    $sql = "SELECT * FROM images_article WHERE id_article = $id_article";
+    $sth = $connection->prepare($sql);
+    $sth->execute();
+
+    $resultat = $sth->fetch(PDO::FETCH_OBJ);
+    //var_dump($id_article);
+    // die();
     return $resultat;
 }

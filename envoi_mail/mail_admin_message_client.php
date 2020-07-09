@@ -25,7 +25,7 @@
         <?php echo $text_message_client ?>
     </p>
 
-    <p>Lien sur le site de location : </p><a href="www.mtevenement44.fr">www.mtevenement44.fr</a>
+    <p>Lien sur le site de location : </p><a href="www.MTevent44.fr">www.MTevent44.fr</a>
     <br>
     <!-- <img class="" src="https://www.mtevent44.fr/images/logo/redimensionne/LogoMT.jpg"> -->
 

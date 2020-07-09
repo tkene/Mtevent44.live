@@ -20,11 +20,11 @@
     <h1>Demande de validation </h1>
     <p>Bonjour</p> <?php echo  @$nom . " " . @$prenom ?>
 
-    <p>Le client Souhaite faire une location pour le produit :<?php echo $nom_produit ?></p>
+    <p>Le client souhaite faire une location pour le produit :<?php echo $nom_produit ?></p>
 
     <p>Ne pas oublier de valider le panier client pour qu'il puisse payer.</p>
     <br>
-    <a href="www.mtevenement44.fr">www.mtevenement44.fr</a>
+    <a href="www.MTevent44.fr">www.MTevent44.fr</a>
     <br>
     <img class="" src="https://www.mtevent44.fr/images/logo/logo_mail.jpg">
 
